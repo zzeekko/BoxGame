@@ -1,0 +1,10 @@
+* {box-sizing: border-box;}
+
+#gameBoard {
+    width: 604px;
+    height: 604px;
+    border: 2px solid purple;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+}
