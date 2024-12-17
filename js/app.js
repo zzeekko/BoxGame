@@ -81,7 +81,51 @@ class Game {
         this.colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'darkgoldenrod']
         this.matches = 0
         this.matchDisplay = document.getElementById('matchDisplay')
-            }
+
+        this.boxes = [
+            {
+                        id: 0,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 1,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 2,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 3,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 4,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 5,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 6,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },    {
+                        id: 7,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 8,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    }
+                ]
+
+        this.scores = {
+            prevScore: 0,
+            currScore: 0,
+            bestScore: 0
+        }
+    }
     
 
     init() {
@@ -140,6 +184,7 @@ class Game {
 
                     if (this.freezeColor != arr[i].color) {
                         this.count++
+                        this.scores.currScore = this.count
                         this.countDisplay.innerText = this.count
                         // console.log(element.dataset.id)
                         arr[i].color = this.colors[Math.floor(Math.random() * this.colors.length)]
@@ -166,6 +211,7 @@ class Game {
     }
 
     resetGame() {
+
         this.resetBoxes()
         this.matches = 0
         this.count = 0
@@ -179,20 +225,14 @@ class Game {
     }
 
     setScores() {
-
-        let bestScore
-
-        if (this.count < this.scores.currScore && this.count > 0) {
-            bestScore = this.count
+        this.scores.prevScore = this.scores.currScore
+        
+        if (this.count < this.scores.currScore && this.count != 0) {
+            this.scores.bestScore = this.count
         } else {
-            bestScore = this.scores.currScore
+            this.scores.bestScore = this.scores.currScore
         }
-
-        this.scores = {
-            prevScore: this.scores.currScore,
-            currScore: this.count,
-            bestScore: bestScore
-        }
+        
 
         this.bestScore.innerText = this.scores.bestScore
     }
