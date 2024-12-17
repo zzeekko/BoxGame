@@ -76,50 +76,16 @@ class Game {
         this.freezeColorDisplay = document.getElementById('freezeColorDisplay')
         this.freezeColor = ''
         this.hasWon = false
+        this.gamePlay = false
+        this.message = document.getElementById('message')
         this.colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'darkgoldenrod']
         this.matches = 0
         this.matchDisplay = document.getElementById('matchDisplay')
-        this.boxes = [
-                {
-                            id: 0,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 1,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 2,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 3,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 4,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 5,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 6,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },    {
-                            id: 7,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        },
-                        {
-                            id: 8,
-                            color: this.colors[Math.floor(Math.random() * this.colors.length)]
-                        }
-                    ]
             }
     
 
     init() {
+        if (!this.gamePlay) return
         this.getFreezeColor()
         this.makeBoxes()
         this.getMatches()
@@ -191,13 +157,96 @@ class Game {
     }
 
     checkWin() {
-        if (this.matches == 9) {
-            this.hasWon = !this.hasWon
+        if (this.matches == 9 && this.gamePlay == true) {
+            this.hasWon = true
+            this.message.innerText = `You won in ${this.count} clicks!`
+            this.gamePlay = false
+            this.setScores()
         }
-        console.log(this.hasWon)
+    }
+
+    resetGame() {
+        this.resetBoxes()
+        this.matches = 0
+        this.count = 0
+        this.countDisplay.innerText = this.count
+        this.gameBoard.innerHTML = ''
+        this.message.innerText = ''
+        this.gamePlay = !this.gamePlay
+        this.hasWon = false
+        console.log(this.gamePlay)
+        this.init()
+    }
+
+    setScores() {
+
+        let bestScore
+
+        if (this.count < this.scores.currScore && this.count > 0) {
+            bestScore = this.count
+        } else {
+            bestScore = this.scores.currScore
+        }
+
+        this.scores = {
+            prevScore: this.scores.currScore,
+            currScore: this.count,
+            bestScore: bestScore
+        }
+
+        this.bestScore.innerText = this.scores.bestScore
+    }
+
+    resetBoxes() {
+        this.boxes = [
+            {
+                        id: 0,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 1,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 2,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 3,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 4,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 5,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 6,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },    {
+                        id: 7,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    },
+                    {
+                        id: 8,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)]
+                    }
+                ]
     }
 }
 
-const action = new Game()
+// const action = new Game()
 
-action.init()
+// const startBtn = document.getElementById('startBtn')
+
+// startBtn.addEventListener('click', ()=> {
+//     action.resetGame()
+// })
+// ^v same thing
+// startBtn.addEventListener('click', ()=> action.resetGame())
+
+document.getElementById('startBtn').addEventListener('click', ()=> new Game().resetGame())
+// this is a condensed version of the above code
